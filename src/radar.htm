@@ -1,32 +1,31 @@
 <html>
 <head>
+	<title>STRATUX Webradar</title>
 	<meta charset='utf-8'>
-    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
 	<script src="radar.js" charset="utf-8"></script>
     <link href="radar.css" rel="stylesheet" type="text/css">
 </head>
 <body>
     <div id="upperbox">
-        <div id="Headingtitle" class="upperboxtext">Heading</div>
         <div id="Heading" class="containerright upperboxtext"></div>
-        <div id="Groundspeedtitle" class="upperboxtext">Groundspeed</div>
         <div id="Groundspeed" class="containerright upperboxtext"></div>
-        <div id="GPStitle" class="upperboxtext">GPS Genauigkeit</div>
         <div id="GPS" class="containerright upperboxtext"></div>
-        <div id="AHRStitle" class="upperboxtext">AHRS</div>
-        <div id="AHRS" class="containerright upperboxtext"></div>
-        <div id="GPS-Positiontitle" class="upperboxtext">GPS-Position</div>
         <div id="GPS-Position" class="containerright upperboxtext"></div>
-        <div id="Versiontitle" class="upperboxtext">Version</div>
+        <div id="BaroPressureAltitude" class="containerright upperboxtext"></div>
+        <div id="AHRSMagHeading" class="containerright upperboxtext"></div>
         <div id="Version" class="containerright upperboxtext"></div>
-    </div>
-    </div>
+        <div id="AHRSGLoad" class="containerright upperboxtext"></div>
+	</div>
     <div id="lowerbox">
         <div id="maincircle">
-            <div id="ownplane"></div>
+			<div id="circlenear"></div>
+			<div id="circlefar"></div>
+            <div id="N">N</div>
+            <div id="O">O</div>
+            <div id="S">S</div>
+            <div id="W">W</div>
         </div>
-        <div id="circlenear"></div>
-        <div id="circlefar"></div>
+		<div id="ownplane"></div>
     </div>
 </body>
 </html>
