@@ -1,13 +1,40 @@
+// Definieren einiger Basisvariablen
 var Lat;
 var Long;
-var trafficuri_ws = "ws://192.168.10.1/traffic";
+var stratuxip = "192.168.10.1";
+var trafficuri_ws = "ws://" + stratuxip + "/traffic";
+var statusuri = "http://" + stratuxip + "/getStatus";
+var situationuri = "http://" + stratuxip + "/getSituation";
 
+// Laden der Init-Funktion nach Laden der Seite, Interval für Akutalisierungen
+window.addEventListener("load", init, false);
+window.setInterval(basics, 500);
+
+
+// Ein- und Ausklappen der Details
+function collapseupperbox(mode)
+{
+  if (mode==1)
+  {
+    document.getElementById('upperbox').style.height = 40;
+    document.getElementById('upperboxcontrol').innerHTML = '<a onclick="collapseupperbox(0);">&#128470;</a>';
+  }
+  if (mode==0)
+  {
+    document.getElementById('upperbox').style.height = 300;
+    document.getElementById('upperboxcontrol').innerHTML = '<a onclick="collapseupperbox(1);">&#128469;</a>';
+  }
+}
+
+// Initalisierung / Hauptfunktion beim Laden der Seite
 function init()
 {
+   collapseupperbox(1);
    basics();
    gettraffic();
 }
 
+// Definieren des Trafficempfängers
 function gettraffic()
 {
    websocket = new WebSocket(trafficuri_ws);
@@ -17,9 +44,11 @@ function gettraffic()
    };
 }
 
+// Empfang von Traffic via WS
 function onMessage(evt)
 {
-   basics();
+ 
+   // Abstand nullen
    var abstandlat = 0;
    var abstandlng = 0;
    var data = JSON.parse(evt.data);
@@ -46,6 +75,8 @@ function onMessage(evt)
    // Flugzeuge ohne Positionsangaben die Kreise anhand ihrer Stärke erhalten
    if (data.Lat == 0)
    {
+	  // Fallback auf genulltes Hintergrundbild falls ein Flugzeug plötzlich keine Posiion mehr sendet
+      planex.style.backgroundImage = "";
       planex.className = "planecircle";
       planex.style.width = (Math.round(data.SignalLevel) * (-20));
       planex.style.height = (Math.round(data.SignalLevel) * (-20));
@@ -70,17 +101,15 @@ function onMessage(evt)
       planex.style.backgroundImage = "url('img/plane_red.svg')";
       planex.style.transform = "rotate(" + data.Track + "deg)";
       planex.innerHTML = "<div class='planeslabel'>" + zeichen + "<br>" + data.Speed + " kts<br>" + data.Alt + " ft</div>";
-
    }
 
 }
-window.addEventListener("load", init, false);
 
+// Abfrage der eigenen Daten und drehen des Radars
 function basics()
 {
-
    var requeststatus = new XMLHttpRequest();
-   requeststatus.open('GET', 'http://192.168.10.1/getStatus', true);
+   requeststatus.open('GET', statusuri, true);
    requeststatus.onload = function()
    {
       var datastatus = JSON.parse(this.response);
@@ -88,9 +117,8 @@ function basics()
       document.getElementById('GPS').innerHTML = "GPS Accouracy: " + datastatus.GPS_position_accuracy + ' m';
    }
    requeststatus.send();
-
    var requestsituation = new XMLHttpRequest();
-   requestsituation.open('GET', 'http://192.168.10.1/getSituation', true);
+   requestsituation.open('GET', situationuri, true);
    requestsituation.onload = function()
    {
       var datasituation = JSON.parse(this.response);
@@ -102,9 +130,7 @@ function basics()
       Lat = datasituation.GPSLatitude;
       Long = datasituation.GPSLongitude;
       document.getElementById('GPS-Position').innerHTML = "Position: " + Lat + "/" + Long;
-      document.getElementById('maincircle').style.transform = "rotate(" + datasituation.GPSTrueCourse + "deg)";
-
+      document.getElementById('maincircle').style.transform = "rotate(" + -datasituation.GPSTrueCourse + "deg)";
    }
    requestsituation.send();
-
 }

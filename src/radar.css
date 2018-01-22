@@ -2,7 +2,17 @@
    position:relative;
    width: 800;
    height: 300;
-   background: grey;
+   background: black;
+}
+
+#upperboxcontrol{
+   position:absolute;
+   top:0;
+   right:10;
+   background: black;
+   text-align:right;
+   font-size: 30;
+   color: white;
 }
 
 #lowerbox{
@@ -22,7 +32,6 @@
    background-repeat: no-repeat;
    background-size: contain;
 }
-
 
 #maincircle{
    border-radius: 50%;
@@ -99,6 +108,11 @@
    font-size: 22;
 }
 
+.headline{
+   color: white;
+   font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+   font-size: 32;
+}
 
 .planes{
    position:absolute;
@@ -126,7 +140,6 @@
    border-radius: 50%;
    border-color:green;
 }
-
 
 .planecirclelabel{
    position:absolute;
