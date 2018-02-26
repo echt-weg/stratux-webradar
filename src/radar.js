@@ -57,7 +57,7 @@ function onMessage(evt)
    var zeichen = data.Tail;
    if (zeichen == "")
    {
-      zeichen = data.Icao_addr;
+	   zeichen = data.Icao_addr.toString(16).toUpperCase();
    }
 
    // Abhängig davon ob das Flugzeug bereits existiert wird es angelegt oder nur ausgewählt
@@ -126,6 +126,7 @@ function basics()
       document.getElementById('Heading').innerHTML = "Heading: " + Math.round(datasituation.GPSTrueCourse) + ' °';
       document.getElementById('AHRSMagHeading').innerHTML = "AHRSMagHeading: " + Math.round(datasituation.GPSTrueCourse) + ' °';
       document.getElementById('BaroPressureAltitude').innerHTML = "BaroPressureAltitude: " + Math.round(datasituation.BaroPressureAltitude) + ' ';
+      document.getElementById('GPSAltitude').innerHTML = "GPSAltitude: " + Math.round(datasituation.GPSHeightAboveEllipsoid) + ' ';
       document.getElementById('AHRSGLoad').innerHTML = "AHRSGLoad: " + Math.round(datasituation.AHRSGLoad) + ' G';
       Lat = datasituation.GPSLatitude;
       Long = datasituation.GPSLongitude;
